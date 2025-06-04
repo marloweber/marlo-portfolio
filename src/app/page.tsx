@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import { DM_Serif_Text, DM_Sans } from "next/font/google"
 import { Mail, Linkedin, Github, ChevronDown, FileText } from "lucide-react";
+import { useState, useRef, useEffect } from 'react';
+import { Project } from "next/dist/build/swc/types";
 
 const DMSerif = DM_Serif_Text({
   subsets: ["latin"],
@@ -12,7 +16,23 @@ const DMSans = DM_Sans({
   weight: "400",
 })
 
+const projects = [
+  {
+    name: "oCEANIC",
+    image: "/oCEANIC_text_logo_white.png",
+    background: "#30858c",
+  },
+  {
+    name: "CoLABify",
+    image: "/colabifylogo.png",
+    background: "#FFFFFF"
+  }
+]
+
 export default function Home() {
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const [activeProject, setActiveProject] = useState<any>();
+
   return (
     <div>
     <div className="h-screen bg-white border-[64px] border-[#06402B] flex items-center justify-center">
@@ -58,36 +78,35 @@ export default function Home() {
     </div>
     
     
+    {/* Projects */}
     <div className="bg-white h-screen">
       <div className={`p-[64px] text-[#06402B] text-5xl ${DMSerif.className}`}>
         Projects
       </div>
       <div className="pl-[64px] flex flex-row gap-[64px]">
-        <div className="h-63 w-112 bg-[#30858c] shadow-lg flex items-center justify-center">
-          <Image 
-              src="/oCEANIC_text_logo_white.png" 
-              alt="Project oCEANIC Logo" 
+        {projects.map((project) =>
+        <div
+          key={project.name}
+          className={`h-63 w-112 bg-[${project.background}] shadow-lg flex items-center justify-center transition duration-200 hover:scale-110 cursor-pointer`}
+          onClick={() => setActiveProject(project)}
+        >
+        <Image 
+              src={project.image} 
+              alt={`${project.name} Logo`}
               width={400} 
               height={400}
               className="object-contain"
             />
-        </div>
-        <div className="ph-63 w-112 bg-white shadow-lg flex items-center justify-center">
-          <Image 
-              src="/colabifylogo.png" 
-              alt="CoLABify Logo" 
-              width={400} 
-              height={400}
-              className="object-contain"
-            />
-        </div>
+            </div>
+        )}
       </div>
+
+      {/* Skills */}
       <div className={`p-[64px] text-[#06402B] text-5xl ${DMSerif.className}`}>
         Skills
       </div>
       
   </div>
-
   </div>
   );
 }
