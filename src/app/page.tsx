@@ -1,19 +1,20 @@
-"use client";
+'use client';
 
 import Image from "next/image";
-import { DM_Serif_Text, DM_Sans } from "next/font/google"
+import { DM_Serif_Text, DM_Sans } from "next/font/google";
 import { Mail, Linkedin, Github, ChevronDown, FileText } from "lucide-react";
 import { useState, useRef, useEffect } from 'react';
-import { Project } from "next/dist/build/swc/types";
 
 const DMSerif = DM_Serif_Text({
   subsets: ["latin"],
   weight: "400",
+  display: "swap"
 })
 
 const DMSans = DM_Sans({
   subsets: ["latin"],
   weight: "400",
+  display: "swap"
 })
 
 const projects = [
@@ -36,7 +37,7 @@ export default function Home() {
   return (
     <div>
     <div className="h-screen bg-white border-[64px] border-[#06402B] flex items-center justify-center">
-      <div className="flex">
+      <div className="flex fade-up">
         {/* Image */}
         <div className="flex flex-col items-center">
           <div className="w-72 h-72 rounded-full overflow-hidden relative border-[5px] border-[#06402B] shadow-lg">
@@ -55,9 +56,9 @@ export default function Home() {
           <div className={`flex items-center justify-between gap-10 text-[#06402B] text-5xl mt-2 ${DMSerif.className}`}>
             Marlo Weber
           </div>  
-          <a className={`mt-8 flex flex-col gap-4 text-[#06402B] text-2xl ${DMSans.className}`}>
+          <div className={`mt-8 flex flex-col gap-4 text-[#06402B] text-2xl ${DMSans.className}`}>
             Software developer studying Computer Science at Purdue University
-          </a> 
+          </div> 
           <div className="flex gap-10 mt-8 text-[#06402B]">
             <a href="mailto:marlo@inspiringapps.com">
               <Mail className="w-8 h-8 transition-colors" />
@@ -87,7 +88,8 @@ export default function Home() {
         {projects.map((project) =>
         <div
           key={project.name}
-          className={`h-63 w-112 bg-[${project.background}] shadow-lg flex items-center justify-center transition duration-200 hover:scale-110 cursor-pointer`}
+          style={{ backgroundColor: project.background }}
+          className={`h-63 w-112 shadow-lg flex items-center justify-center transition duration-200 hover:scale-110 cursor-pointer`}
           onClick={() => setActiveProject(project)}
         >
         <Image 
@@ -100,6 +102,20 @@ export default function Home() {
             </div>
         )}
       </div>
+
+      {activeProject && (
+        <div 
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center p-8 overflow-auto"
+          style={{ backgroundColor: activeProject.background }}
+        >
+          <button
+            className="absolute top-4 left-4 text-black text-xl font-bold"
+            onClick={() => setActiveProject(null)}
+          >
+            ×
+          </button>
+          </div>
+      )}
 
       {/* Skills */}
       <div className={`p-[64px] text-[#06402B] text-5xl ${DMSerif.className}`}>
