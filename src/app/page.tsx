@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { DM_Serif_Text, DM_Sans } from "next/font/google";
-import { Mail, Linkedin, Github, ChevronDown, FileText } from "lucide-react";
+import { Mail, Linkedin, Github, MoveLeft, FileText } from "lucide-react";
 import { useState, useRef, useEffect } from 'react';
 
 const DMSerif = DM_Serif_Text({
@@ -22,11 +22,13 @@ const projects = [
     name: "oCEANIC",
     image: "/oCEANIC_text_logo_white.png",
     background: "#30858c",
+    arrow: "#FFFFFF",
   },
   {
     name: "CoLABify",
     image: "/colabifylogo.png",
-    background: "#FFFFFF"
+    background: "#FFFFFF",
+    arrow: "#000000",
   }
 ]
 
@@ -91,6 +93,9 @@ export default function Home() {
           style={{ backgroundColor: project.background }}
           className={`h-63 w-112 shadow-lg flex items-center justify-center transition duration-200 hover:scale-110 cursor-pointer`}
           onClick={() => setActiveProject(project)}
+          // on click should redirect to a whole new page, not just a modal because the scrolling is getting weird
+          // format it so the link to open is a piece of the project name so it opens dynamically
+          // still add a transition when it opens, maybe it will be easier now
         >
         <Image 
               src={project.image} 
@@ -109,11 +114,35 @@ export default function Home() {
           style={{ backgroundColor: activeProject.background }}
         >
           <button
-            className="absolute top-4 left-4 text-black text-xl font-bold"
+            className="absolute top-8 left-8  cursor-pointer"
             onClick={() => setActiveProject(null)}
           >
-            ×
+            <MoveLeft 
+              size={35}
+              style={{ color: activeProject.arrow }}
+            />
           </button>
+
+          {activeProject.name === "oCEANIC" ? (
+            <div>
+              <Image 
+              src={activeProject.image} 
+              alt={`${activeProject.name} Logo`}
+              width={400} 
+              height={400}
+              className=""
+            />
+            </div>
+          ) : (activeProject.name === "CoLABify") ? (
+            <div>
+
+            </div>
+          ) : (
+            <div>
+              Unknown project
+            </div>
+          )
+        }
           </div>
       )}
 
