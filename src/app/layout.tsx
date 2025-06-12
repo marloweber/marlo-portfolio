@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Marlo Weber",
   icons: {
-    icon: "favicon.ico",
+    icon: "mw-logo.svg",
   },
 };
 
