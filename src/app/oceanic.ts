@@ -5,7 +5,13 @@ export const oCEANICText = {
 
 export const oCEANICImages = [
     {
-        path: "",
-        caption: "",
+        path: "/oceanic-images/simulate-voyage.png",
+        caption: "Explore the Project oCEANIC website",
+        link: "https://project-oceanic.vercel.app",
+    },
+    {
+        path: "/oceanic-images/substack.png",
+        caption: "Visit the Substack",
+        link: "https://projectoceanic.substack.com",
     }
 ] as const;

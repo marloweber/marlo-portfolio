@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Projects } from "@/app/projects";
 import { oCEANICText, oCEANICImages } from "@/app/oceanic";
 import { CoLABifyText, CoLABifyImages } from "@/app/colabify";
+import { LunarText, LunarImages } from "@/app/lunar";
 
 const DMSerif = DM_Serif_Text({
   subsets: ["latin"],
@@ -80,24 +81,21 @@ export default function Home() {
       <div className={`p-[64px] text-[#06402B] text-5xl ${DMSerif.className}`}>
         Projects
       </div>
-      <div className="pl-[64px] flex flex-row gap-[64px]">
+      <div className="pl-[64px] flex flex-row gap-[64px] grid-cols-3">
         {Projects.map((project) =>
         <div
           key={project.name}
           style={{ backgroundColor: project.background }}
-          className={`h-63 w-112 shadow-lg flex items-center justify-center transition duration-200 hover:scale-110 cursor-pointer`}
+          className={`h-64 w-100 shadow-lg flex items-center justify-center transition duration-200 hover:scale-110 cursor-pointer`}
           
           onClick={() => setActiveProject(project)}
-          // on click should redirect to a whole new page, not just a modal because the scrolling is getting weird
-          // format it so the link to open is a piece of the project name so it opens dynamically
-          // still add a transition when it opens, maybe it will be easier now
         >
           
         <Image 
               src={project.image} 
               alt={`${project.name} Logo`}
-              width={400} 
-              height={400}
+              width={350} 
+              height={350}
               className="object-contain"
             />
         </div>
@@ -122,9 +120,11 @@ export default function Home() {
 
           {/* oCEANIC */}
           {activeProject.name === "oCEANIC" ? (
-             <div className="w-full h-full flex items-center pl-20">
-                <div className="flex flex-row gap-30">
-                 <div className="flex flex-col items-center justify-center">
+             <div className="w-full h-full flex items-center justify-center px-20">
+              <div className="flex flex-row items-center justify-between w-full max-w-[1200px] gap-20">
+                
+                {/* left column */}
+                <div className="flex flex-col items-center justify-center w-1/2">
                 <Image 
                 src={activeProject.image} 
                 alt={`${activeProject.name} Logo`}
@@ -148,20 +148,41 @@ export default function Home() {
                 )}
               </div>
               </div>
+              </div>
 
+              {/* right column */}
+              <div className="flex flex-col items-center justify-center w-1/2 space-y-8">
+                {oCEANICImages.map((image) =>
+                  <div
+                    key={image.path}
+                    className="flex flex-col items-center"
+                  >
+                    <a href={image.link} target="_blank" rel="noopener noreferrer">
+                      <Image
+                        src={image.path}
+                        alt={image.caption}
+                        width={450}
+                        height={450}
+                        className="shadow-lg"
+                      />
+                    </a>
+                  
+                  <div className={`text-white text-center mt-2 ${DMSans.className}`}>
+                    {image.caption}
+                  </div>
+                  </div>
+                )}
               </div>
-              <div>
-                Other column
-              </div>
-              {/* link the website and the substack at the bottom of the other column */}
             </div>
             </div>  
 
             // CoLABify
           ) : (activeProject.name === "CoLABify") ? (
-           <div className="w-full h-full flex items-center pl-20">
-                <div className="flex flex-row gap-30">
-                 <div className="flex flex-col items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center px-20">
+              <div className="flex flex-row items-center justify-between w-full max-w-[1200px] gap-20">
+                
+                {/* left column */}
+                <div className="flex flex-col items-center justify-center w-1/2">
                 <Image 
                 src={activeProject.image} 
                 alt={`${activeProject.name} Logo`}
@@ -185,23 +206,123 @@ export default function Home() {
                 )}
               </div>
               </div>
-
               </div>
-              <div>
-                Other column
+
+              {/* right column */}
+              <div className="flex flex-col items-center justify-center w-1/2 space-y-8 max-h-[80vh] overflow-y-auto">
+                {CoLABifyImages.map((image) =>
+                  <div
+                    key={image.path}
+                    className="flex flex-col items-center"
+                  >
+                    <Image
+                      src={image.path}
+                      alt={image.caption}
+                      width={600}
+                      height={600}
+                      className="shadow-lg"
+                    />
+                  
+                  <div className={`text-black text-center mt-2 ${DMSans.className}`}>
+                    {image.caption}
+                  </div>
+                  </div>
+                )}
               </div>
             </div>
-            </div>  
+            </div> 
+
+
+            // Lunar Translation
+          ) : (activeProject.name === "Lunar Translation") ? (
+              <div className="w-full h-full flex items-center justify-center px-20">
+              <div className="flex flex-row items-center justify-between w-full max-w-[1200px] gap-20">
+                
+                {/* left column */}
+                <div className="flex flex-col items-center justify-center w-1/2">
+                <Image 
+                src={activeProject.image} 
+                alt={`${activeProject.name} Logo`}
+                width={400} 
+                height={400}
+              />
+              <div className={`text-white mt-10 text-left max-w-sm ${DMSans.className}`}>
+                {LunarText.blurb}
+              </div>
+
+              <div className="mt-10">
+              <div className="flex flex-row gap-2">
+                {LunarText.tools.map((tool, index) => (
+                  <div 
+                    key={index} 
+                    className= {`text-white bg-[#FFFFFF]/20 px-2 py-2 rounded-sm text-sm ${DMSans.className}`}
+                  >
+                    {tool}
+                  </div>
+                )
+                )}
+                <a className="pl-10" href="https://github.com/marloweber/lunar-translation" target="_blank" rel="noopener noreferrer">
+              <Github className="w-8 h-8 text-white " />
+                </a>
+              </div>
+              </div>         
+              </div>
+
+              {/* right column */}
+              <div className="flex flex-col items-center justify-center w-1/2 space-y-8 max-h-[80vh] overflow-y-auto">
+                {LunarImages.map((image) =>
+                  <div
+                    key={image.path}
+                    className="flex flex-col items-center"
+                  >
+                    <Image
+                      src={image.path}
+                      alt={image.caption}
+                      width={525}
+                      height={525}
+                      className="shadow-lg"
+                    />
+                  
+                  <div className={`text-white text-center mt-2 ${DMSans.className}`}>
+                    {image.caption}
+                  </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            </div>
+
+
           ) : null }
           </div>
           </div>
       )}
 
       {/* Skills */}
-      <div className={`p-[64px] text-[#06402B] text-5xl ${DMSerif.className}`}>
-        Skills
-      </div>
-      
+      <div className=" text-[#06402B]">
+        <div className={`pl-[64px] pb-[32px] pt-[64px] text-5xl ${DMSerif.className}`}>
+          Skills
+        </div>
+          <div className={`columns-3 text-2xl pl-[64px] ${DMSans.className}`}>
+          <ul className="list-disc list-inside space-y-2">
+            <li className="text-left">Java</li>
+            <li>Python</li>
+            <li>C</li>
+            <li>C++</li>
+            <li>Javascript/Typescript</li>
+            <li>Next</li>
+            <li>Tailwind CSS</li>
+            <li>MongoDB</li>
+            <li>NumPy</li>
+            <li>Machine Learning</li>
+            <li>Software Engineering</li>
+            <li>Object Oriented Programming</li>
+            <li>Data Structures and Algorithms</li>
+            <li>Agent-Based Modeling</li>
+            <li>Statistics</li>
+          </ul>
+        </div>
+      </div>     
   </div>
   </div>
   );
