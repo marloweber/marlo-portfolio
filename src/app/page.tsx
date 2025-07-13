@@ -1,7 +1,6 @@
 'use client';
 
 import Image from "next/image";
-import Link from "next/link";
 import { DM_Serif_Text, DM_Sans } from "next/font/google";
 import { Mail, Linkedin, Github, MoveLeft, FileText } from "lucide-react";
 import { useState, useRef, useEffect } from 'react';
@@ -22,14 +21,11 @@ const DMSans = DM_Sans({
   display: "swap"
 })
 
-
-// The animation is a little buggy and looks weird when you reload the page, maybe figure out how to only have it
-// animate on the first visit and not on refresh
-
-// I think I might like the modal look more, just make the modals smaller, not the whole page
 export default function Home() {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [activeProject, setActiveProject] = useState<any>();
+  const [isFadingOut, setIsFadingOut] = useState(false);
+
 
   return (
     <div>
@@ -39,7 +35,7 @@ export default function Home() {
         <div className="flex flex-col items-center fade-up">
           <div className="w-72 h-72 rounded-full overflow-hidden relative border-[5px] border-[#06402B] shadow-lg">
             <Image 
-              src="/cropped-headshot.png" 
+              src="/marlo-headshot-2025-cropped.jpg" 
               alt="Marlo Weber Headshot" 
               width={200} 
               height={200}
@@ -69,7 +65,6 @@ export default function Home() {
             <a href="/test_resume.pdf" target="_blank" rel="noopener noreferrer">
               <FileText className="w-8 h-8 transition-colors" />
             </a> 
-            {/* link my resume */}
           </div>
         </div>
       </div>
@@ -78,10 +73,10 @@ export default function Home() {
     
     {/* Projects */}
     <div className="bg-white h-screen">
-      <div className={`p-[64px] text-[#06402B] text-5xl ${DMSerif.className}`}>
+      <div className={`pl-[64px] pb-[32px] pt-[64px] text-[#06402B] text-5xl ${DMSerif.className}`}>
         Projects
       </div>
-      <div className="pl-[64px] flex flex-row gap-[64px] grid-cols-3">
+      <div className="pl-[64px] pr-[64px] grid grid-cols-3 gap-[64px] justify-items-center">
         {Projects.map((project) =>
         <div
           key={project.name}
@@ -105,12 +100,18 @@ export default function Home() {
       {activeProject && (
         <div className="fixed inset-0 flex justify-center items-center z-0 bg-black/60">
         <div 
-          className="relative shadow-lg w-10/12 h-10/12 z-10"
+          className={`relative shadow-lg w-10/12 h-10/12 z-10 ${isFadingOut ? 'fade-out' : 'fade-in'}`}
           style={{ backgroundColor: activeProject.background }}
         >
           <button
             className="absolute top-8 left-8 cursor-pointer"
-            onClick={() => setActiveProject(null)}
+            onClick={() => {
+              setIsFadingOut(true);
+              setTimeout(() => {
+              setActiveProject(null);
+              setIsFadingOut(false);
+              }, 300);
+            }}
           >
             <MoveLeft 
               size={35}
@@ -210,6 +211,7 @@ export default function Home() {
 
               {/* right column */}
               <div className="flex flex-col items-center justify-center w-1/2 space-y-8 max-h-[80vh] overflow-y-auto">
+                <div className="h-[600px] overflow-y-auto flex flex-col space-y-8 pr-2 scroll-smooth">
                 {CoLABifyImages.map((image) =>
                   <div
                     key={image.path}
@@ -228,6 +230,7 @@ export default function Home() {
                   </div>
                   </div>
                 )}
+              </div>
               </div>
             </div>
             </div> 
@@ -252,6 +255,9 @@ export default function Home() {
 
               <div className="mt-10">
               <div className="flex flex-row gap-2">
+                <a className="px-2" href="https://github.com/marloweber/lunar-translation" target="_blank" rel="noopener noreferrer">
+                  <Github className="w-8 h-8 text-white " />
+                </a>
                 {LunarText.tools.map((tool, index) => (
                   <div 
                     key={index} 
@@ -260,10 +266,7 @@ export default function Home() {
                     {tool}
                   </div>
                 )
-                )}
-                <a className="pl-10" href="https://github.com/marloweber/lunar-translation" target="_blank" rel="noopener noreferrer">
-              <Github className="w-8 h-8 text-white " />
-                </a>
+                )}   
               </div>
               </div>         
               </div>
@@ -303,8 +306,8 @@ export default function Home() {
         <div className={`pl-[64px] pb-[32px] pt-[64px] text-5xl ${DMSerif.className}`}>
           Skills
         </div>
-          <div className={`columns-3 text-2xl pl-[64px] ${DMSans.className}`}>
-          <ul className="list-disc list-inside space-y-2">
+          <div className={`columns-3 text-2xl pl-[64px] pb-[64px] ${DMSans.className}`}>
+          <ul className="list-disc list-inside space-y-4">
             <li className="text-left">Java</li>
             <li>Python</li>
             <li>C</li>
