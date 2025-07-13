@@ -14,7 +14,7 @@ export const Projects = [
   {
     name: "Lunar Translation",
     image: "/lunar-logo.png",
-    background: "#000000",
+    background: "#222222",
     arrow: "#FFFFFF",
   }
 ] as const;
