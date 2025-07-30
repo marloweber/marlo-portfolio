@@ -25,7 +25,31 @@ export default function Home() {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [activeProject, setActiveProject] = useState<any>();
   const [isFadingOut, setIsFadingOut] = useState(false);
+  const [contactFormOpen, setContactFormOpen] = useState(false);
+  const [result, setResult] = useState("");
 
+  const onSubmit = async (event:any) => {
+    event.preventDefault();
+    setResult("Sending...");
+    const formData = new FormData(event.target);
+
+    formData.append("access_key", "936d9863-d917-4d9f-ad21-a0ff8164f6f9");
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setResult("Your message was sent successfully!");
+      event.target.reset();
+    } else {
+      // console.log("Error", data);
+      setResult("An error occurred. Please try a different email.");
+    }
+  };
 
   return (
     <div>
@@ -53,8 +77,13 @@ export default function Home() {
             Software developer studying Computer Science at Purdue University
           </div> 
           <div className="flex gap-10 mt-8 text-[#06402B]">
-            <a href="mailto:marlo@inspiringapps.com">
+            {/* <a href="mailto:marlo@inspiringapps.com">
               <Mail className="w-8 h-8 transition-colors" />
+            </a> */}
+            <a>
+              <Mail className="w-8 h-8 transition-colors cursor-pointer" 
+              onClick={() => setContactFormOpen(true)}
+              />
             </a>
             <a href="https://www.linkedin.com/in/marloweber" target="_blank" rel="noopener noreferrer">
               <Linkedin className="w-8 h-8 transition-colors" />
@@ -62,9 +91,9 @@ export default function Home() {
             <a href="https://github.com/marloweber" target="_blank" rel="noopener noreferrer">
               <Github className="w-8 h-8 transition-colors" />
             </a>
-            <a href="/test_resume.pdf" target="_blank" rel="noopener noreferrer">
+            {/* <a href="/test_resume.pdf" target="_blank" rel="noopener noreferrer">
               <FileText className="w-8 h-8 transition-colors" />
-            </a> 
+            </a>  */}
           </div>
         </div>
       </div>
@@ -96,6 +125,67 @@ export default function Home() {
         </div>
         )}
       </div>
+
+      {contactFormOpen && (
+  <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/60">
+    <div
+      className={`relative shadow-lg w-full max-w-xl h-[64vh] bg-[#06402B] rounded-lg p-6 overflow-hidden ${isFadingOut ? 'fade-out' : 'fade-in'}`}
+    >
+      <button
+        className="absolute top-4 left-4 text-white text-xl"
+        onClick={() => {
+          setIsFadingOut(true);
+          setResult("");
+          setTimeout(() => {
+            setContactFormOpen(false);
+            setIsFadingOut(false);
+          }, 300);
+        }}
+      >
+        X
+      </button>
+
+      <div className="flex flex-col h-full">
+        <div className={`text-white text-center text-2xl mb-4 ${DMSerif.className}`}>
+          Please contact me below!
+        </div>
+
+        <div className="flex-1 overflow-y-auto flex-col justify-center">
+          <form onSubmit={onSubmit} className="flex flex-col items-center space-y-4 px-2 mt-4">
+            <input
+              className={`bg-white h-10 w-full max-w-md px-4 ${DMSans.className}`}
+              type="text"
+              name="name"
+              placeholder="Name"
+              required
+            />
+            <input
+              className={`bg-white h-10 w-full max-w-md px-4 ${DMSans.className}`}
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
+            <textarea
+              className={`bg-white min-h-[200px] max-h-[300px] resize-none w-full max-w-md px-4 py-2 ${DMSans.className}`}
+              name="message"
+              placeholder="Message"
+              required
+            ></textarea>
+            <button
+              className={`bg-white h-10 w-full max-w-md ${DMSans.className}`}
+              type="submit"
+            >
+              Submit Form
+            </button>
+          </form>
+        </div>
+
+        {result && <span className={`text-white text-center mt-4 ${DMSans.className}`}>{result}</span>}
+      </div>
+    </div>
+  </div>
+        )}
 
       {activeProject && (
         <div className="fixed inset-0 flex justify-center items-center z-0 bg-black/60">
@@ -313,7 +403,7 @@ export default function Home() {
             <li>C</li>
             <li>C++</li>
             <li>Javascript/Typescript</li>
-            <li>Next</li>
+            <li>Next.js</li>
             <li>Tailwind CSS</li>
             <li>MongoDB</li>
             <li>NumPy</li>
