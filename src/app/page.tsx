@@ -176,7 +176,7 @@ export default function Home() {
               className={`bg-white h-10 w-full max-w-md ${DMSans.className}`}
               type="submit"
             >
-              Submit Form
+              Send
             </button>
           </form>
         </div>
