@@ -33,7 +33,7 @@ export default function Home() {
     setResult("Sending...");
     const formData = new FormData(event.target);
 
-    formData.append("access_key", "936d9863-d917-4d9f-ad21-a0ff8164f6f9");
+    formData.append("access_key", "c593cfe0-da57-4cd8-bece-1f83a74d0045");
 
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
@@ -46,7 +46,6 @@ export default function Home() {
       setResult("Your message was sent successfully!");
       event.target.reset();
     } else {
-      // console.log("Error", data);
       setResult("An error occurred. Please try a different email.");
     }
   };
@@ -77,9 +76,6 @@ export default function Home() {
             Software developer studying Computer Science at Purdue University
           </div> 
           <div className="flex gap-10 mt-8 text-[#06402B]">
-            {/* <a href="mailto:marlo@inspiringapps.com">
-              <Mail className="w-8 h-8 transition-colors" />
-            </a> */}
             <a>
               <Mail className="w-8 h-8 transition-colors cursor-pointer" 
               onClick={() => setContactFormOpen(true)}
